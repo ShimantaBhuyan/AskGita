@@ -65,3 +65,9 @@ end
 gem "react_on_rails", "= 13.3"
 
 gem "shakapacker", "= 6.6"
+
+gem "pdf-reader"
+gem "ruby-openai" 
+gem "dotenv"
+gem "csv"
+gem 'string-similarity'
