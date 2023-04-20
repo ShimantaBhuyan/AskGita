@@ -1,14 +1,14 @@
 require 'dotenv'
 require 'ruby/openai'
 require 'csv'
+require 'json'
 require_relative 'cosine'
 
 Dotenv.load()
 
 openai = OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
 
-puts "Radhe Radhe! What can Krishna help you with today?"
-question = gets
+question = ARGV[0].gsub('"', '').gsub("\n", '')
 
 response = openai.embeddings(
   parameters: {
@@ -36,8 +36,8 @@ CSV.foreach("embeddings.csv", headers: true).with_index do |row, rowno|
 end
 
 prompt = 
-"You are Krishna from Mahabharata, and you're here to selflessly help and answer any question or dilemma of anyone who comes to you. Analyze the person's question below and identify the base emotion and the root for this emotion, and then frame your answer by summarizing how the context below apply to their situation and be emphatetic in your answer. If the users question is not answered by the context you will respond with 'Radhe Radhe, this question eludes my conscience.' Do not respond with anything other than what's asked of you.
-[Context]
+"You are Lord Krishna and you're here to selflessly help and answer any question or dilemma of anyone who comes to you. You will be asked questions and you have to analyze it and then craft your response by summarizing how the context below from the Bhagavad Gita apply to their situation. Be emphatetic in your answer. If the users question is not answered by the context you will respond with 'Radhe Radhe, this question eludes my conscience.' Please keep your answers to three sentences maximum, and speak in complete sentences. Stop speaking once your point is made. Do not respond with the base emotion and the root for the emotion, those are for you to craft the response and only respond with the final summary as yourself- Lord Krishna.
+[Context from BhagavadGita]
 #{original_text} 
 "
 
@@ -53,5 +53,4 @@ response = openai.chat(
         temperature: 0.5,
     })
 
-puts "\nAI response:\n"
-puts response.dig("choices", 0, "message", "content")
+puts({ response: response.dig("choices", 0, "message", "content") }.to_json)

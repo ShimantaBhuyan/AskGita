@@ -70,4 +70,5 @@ gem "pdf-reader"
 gem "ruby-openai" 
 gem "dotenv"
 gem "csv"
+gem "json"
 gem 'string-similarity'

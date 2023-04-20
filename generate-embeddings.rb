@@ -17,7 +17,7 @@ reader = PDF::Reader.new(pdf_path)
 reader.pages.each do |page|
 
   # Extract the text from the page
-  text = page.text
+  text = page.text.gsub(/[^\w\s]/, '')
 
   # Split the text into chunks of maximum 2000 words each
   chunks = text.scan(/[\w'-]+(?:\W+[\w'-]+){0,1999}/)
