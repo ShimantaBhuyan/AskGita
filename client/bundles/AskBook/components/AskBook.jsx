@@ -10,7 +10,6 @@ const AskBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsGenerating(true);
-    console.log(question);
     const response = await fetch('/ask', {
         method: 'POST',
         headers: {
@@ -19,7 +18,6 @@ const AskBook = () => {
     body: JSON.stringify({ question: `"${question}"` })
     });
     const data = await response.json();
-    console.log(data);
     setIsGenerating(false);
     setAnswer(data.response);
   }
